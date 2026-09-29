@@ -1,0 +1,41 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 9, "w": 12, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [{"expr": "quantile_over_time(0.95, {event=\"web_vital_lcp\"} | json | unwrap value [30m])", "refId": "A"}],
+      "title": "LCP p95",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 9, "w": 12, "x": 12, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "quantile_over_time(0.95, {event=\"web_vital_inp\"} | json | unwrap value [30m])", "refId": "A"}],
+      "title": "INP p95",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 9, "w": 24, "x": 0, "y": 9},
+      "id": 3,
+      "targets": [{"expr": "avg_over_time({event=\"web_vital_cls\"} | json | unwrap value [30m])", "refId": "A"}],
+      "title": "CLS avg",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["frontend", "performance"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "title": "FrontendPerformance",
+  "uid": "frontend-performance-local",
+  "version": 1
+}

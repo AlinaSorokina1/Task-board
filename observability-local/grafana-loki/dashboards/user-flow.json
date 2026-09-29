@@ -1,0 +1,71 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "fieldConfig": {"defaults": {"unit": "short"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 8, "x": 0, "y": 0},
+      "id": 1,
+      "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
+      "targets": [{"expr": "sum(count_over_time({event=\"action_submitted\"} | json | action=\"drag_drop_status_change\" [24h]))", "refId": "A"}],
+      "title": "Перемещений задач за 24 часа",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "fieldConfig": {"defaults": {"unit": "short"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 8, "x": 8, "y": 0},
+      "id": 2,
+      "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
+      "targets": [{"expr": "sum(count_over_time({event=\"action_submitted\"} | json | action=\"select_status_change\" [24h]))", "refId": "A"}],
+      "title": "Смен статуса через Select за 24 часа",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "fieldConfig": {"defaults": {"unit": "short"}, "overrides": []},
+      "gridPos": {"h": 7, "w": 8, "x": 16, "y": 0},
+      "id": 3,
+      "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "showPercentChange": false, "textMode": "auto", "wideLayout": true},
+      "targets": [{"expr": "sum(count_over_time({event=\"action_failed\"} [24h]))", "refId": "A"}],
+      "title": "Ошибок действий за 24 часа",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 7},
+      "id": 4,
+      "targets": [{"expr": "sum by (action) (count_over_time({event=\"action_submitted\"} | json [15m]))", "refId": "A"}],
+      "title": "Действия пользователей по типам (15м)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 15},
+      "id": 5,
+      "targets": [{"expr": "sum by (from_status, to_status) (count_over_time({event=\"action_submitted\"} | json | action=\"drag_drop_status_change\" [30m]))", "refId": "A"}],
+      "title": "Переходы между статусами (drag&drop, 30м)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 23},
+      "id": 6,
+      "targets": [{"expr": "{event=~\"action_submitted|action_failed\"} | json", "refId": "A"}],
+      "title": "Лента событий пользователя",
+      "type": "logs"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["frontend", "user-flow"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "title": "Пользовательский поток",
+  "uid": "frontend-user-flow-local",
+  "version": 1
+}

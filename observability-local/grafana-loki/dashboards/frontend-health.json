@@ -1,0 +1,46 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "fieldConfig": {"defaults": {"unit": "short"}, "overrides": []},
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [{"expr": "sum(count_over_time({event=\"action_failed\", environment=\"local\"}[5m]))", "refId": "A"}],
+      "title": "Error Rate (5m)",
+      "type": "stat"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "topk(5, sum by (error_message) (count_over_time({event=\"action_failed\", environment=\"local\"} | json [1h])))", "refId": "A"}],
+      "title": "Top Error Types",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {"type": "loki", "uid": "grafana"},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+      "id": 3,
+      "targets": [{"expr": "{environment=\"local\"} | json", "refId": "A"}],
+      "title": "Recent frontend events",
+      "type": "logs"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": ["frontend", "health"],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timezone": "",
+  "title": "FrontendHealth",
+  "uid": "frontend-health-local",
+  "version": 1,
+  "weekStart": ""
+}
